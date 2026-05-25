@@ -1,0 +1,59 @@
+{
+	"name": "clsx-cn",
+	"type": "module",
+	"version": "0.1.0",
+	"description": "clsx, cva, and cn for Tailwind CSS. Uses tailwind-merge as a peer dependency (not bundled).",
+	"keywords": [
+		"tailwind",
+		"tailwindcss",
+		"clsx",
+		"cva",
+		"cn",
+		"classnames",
+		"class-variance-authority",
+		"shadcn",
+		"shadcn-ui"
+	],
+	"license": "MIT",
+	"author": "nunesunil",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nunesunil/clsx-cn.git"
+	},
+	"homepage": "https://github.com/nunesunil/clsx-cn#readme",
+	"bugs": {
+		"url": "https://github.com/nunesunil/clsx-cn/issues"
+	},
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false,
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc --noEmit",
+		"prepublishOnly": "pnpm run build",
+		"prepack": "pnpm run build"
+	},
+	"peerDependencies": {
+		"tailwind-merge": "^3"
+	},
+	"devDependencies": {
+		"tailwind-merge": "^3",
+		"tsdown": "^0",
+		"typescript": "^6"
+	}
+}
