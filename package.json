@@ -1,7 +1,7 @@
 {
 	"name": "clsx-cn",
 	"type": "module",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "clsx, cva, and cn for Tailwind CSS. Uses tailwind-merge as a peer dependency (not bundled).",
 	"keywords": [
 		"tailwind",

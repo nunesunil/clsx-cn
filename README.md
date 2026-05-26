@@ -104,9 +104,11 @@ cn('px-2 py-1', 'p-3') // → 'p-3'
 cn('text-sm', false && 'hidden') // → 'text-sm'
 ```
 
-**Headless UI (and similar) `className` resolvers:** pass a base class string and a `className` prop that may be static or a state callback. When the second argument is a function, `cn` returns a merged resolver for the component:
+**Headless UI (and similar) `className` resolvers:** `cn` accepts a prop that may be static or a state callback — alone or after a base class. When a resolver is passed, `cn` returns a merged callback for the component:
 
 ```tsx
+<Button className={cn(className)} />
+
 <DialogBackdrop
   className={cn(
     'fixed inset-0 bg-black/80 data-open:fade-in-0',
