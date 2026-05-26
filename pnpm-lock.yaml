@@ -7,10 +7,11 @@ settings:
 importers:
 
   .:
-    devDependencies:
+    dependencies:
       tailwind-merge:
         specifier: ^3
         version: 3.6.0
+    devDependencies:
       tsdown:
         specifier: ^0
         version: 0.22.0(typescript@6.0.3)

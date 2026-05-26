@@ -1,10 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { type ClassValue, type MaybeClassValue, clsx } from "./clsx";
-import {
-	type DefineConfigOptions,
-	defineConfig,
-	resolveOnCompleteHook,
-} from "./cva";
+import { defineConfig, type DefineConfigOptions } from "./cva";
+import { resolveOnCompleteHook } from "./hooks";
 
 function mergeCn<TState>(
 	merge: (className: string) => string,
@@ -81,10 +78,15 @@ export function defineConfigWithTwMerge(options?: DefineConfigOptions) {
 	return defineConfig({
 		...options,
 		hooks: {
+			...options?.hooks,
 			onComplete: chainOnComplete(twMerge, onComplete),
 		},
 	});
 }
 
 /** `cva` / `cx` / `compose` with Tailwind merge enabled in the `cx` pipeline. */
-export const { compose, cva, cx } = defineConfigWithTwMerge();
+export const {
+	compose: composeWithTwMerge,
+	cva: cvaWithTwMerge,
+	cx: cxWithTwMerge,
+} = defineConfigWithTwMerge();

@@ -4,6 +4,7 @@ import {
 	type ClassValue,
 	clsx,
 } from "./clsx";
+import { resolveOnCompleteHook } from "./hooks";
 
 export type { ClassArray, ClassDictionary, ClassValue };
 
@@ -132,16 +133,6 @@ export interface DefineConfigOptions {
 		/** Returns the completed string of concatenated classes/classNames. */
 		onComplete?: OnCompleteHook;
 	};
-}
-
-/** Prefer `onComplete`; falls back to legacy `cx:done` without surfacing deprecation at call sites. */
-export function resolveOnCompleteHook(
-	hooks?: DefineConfigOptions["hooks"],
-): OnCompleteHook | undefined {
-	const legacy = hooks as
-		| { onComplete?: OnCompleteHook; "cx:done"?: OnCompleteHook }
-		| undefined;
-	return legacy?.onComplete ?? legacy?.["cx:done"];
 }
 
 export type DefineConfig = (options?: DefineConfigOptions) => {

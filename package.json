@@ -1,8 +1,8 @@
 {
 	"name": "clsx-cn",
 	"type": "module",
-	"version": "0.1.2",
-	"description": "clsx, cva, and cn for Tailwind CSS. Uses tailwind-merge as a peer dependency (not bundled).",
+	"version": "1.1.0",
+	"description": "clsx, cva, and cn for Tailwind CSS — includes tailwind-merge for conflict-aware cn().",
 	"keywords": [
 		"tailwind",
 		"tailwindcss",
@@ -48,11 +48,10 @@
 		"prepublishOnly": "pnpm run build",
 		"prepack": "pnpm run build"
 	},
-	"peerDependencies": {
+	"dependencies": {
 		"tailwind-merge": "^3"
 	},
 	"devDependencies": {
-		"tailwind-merge": "^3",
 		"tsdown": "^0",
 		"typescript": "^6"
 	}

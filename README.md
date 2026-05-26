@@ -2,7 +2,7 @@
 
 **`clsx`**, **`cva`**, and **`cn`** for Tailwind CSS and shadcn/ui-style components — bundled in one package.
 
-[`tailwind-merge`](https://github.com/dcastil/tailwind-merge) is **not** included. It is a **peer dependency**: install it in your app. `cn` and merge-enabled exports call into your installed copy at runtime.
+[`tailwind-merge`](https://github.com/dcastil/tailwind-merge) is included as a dependency — `cn` and merge-enabled exports use it automatically.
 
 ## What’s included
 
@@ -10,7 +10,7 @@
 |--------------|------|
 | `clsx` | Join conditional class names |
 | `cva`, `cx`, `compose` | Variant-driven classes (CVA-compatible API) |
-| `cn` | `clsx` + your app’s `tailwind-merge` |
+| `cn` | `clsx` + `tailwind-merge` |
 | `createCn` | Custom `cn` with your own merge function |
 | `cvaWithTwMerge`, `cxWithTwMerge`, `composeWithTwMerge` | Variants with merge in the internal pipeline |
 | `defineConfig`, `defineConfigWithTwMerge` | Custom `cva` / `cx` / `compose` instances |
@@ -20,12 +20,10 @@ Default export is `clsx`.
 ## Install
 
 ```bash
-pnpm add clsx-cn tailwind-merge
-# npm install clsx-cn tailwind-merge
-# yarn add clsx-cn tailwind-merge
+pnpm add clsx-cn
+# npm install clsx-cn
+# yarn add clsx-cn
 ```
-
-**Peer dependency:** `tailwind-merge@^3` (required for `cn`, `createCn`, and `*WithTwMerge` exports).
 
 Works in browsers, Node, Bun, and bundlers (ESM, `sideEffects: false`).
 
@@ -34,9 +32,9 @@ Works in browsers, Node, Bun, and bundlers (ESM, `sideEffects: false`).
 Typical shadcn `lib/utils.ts`:
 
 ```ts
-import { cn, type ClassValue } from 'clsx-cn'
+import { cn, type ClassValue, type MaybeClassValue } from 'clsx-cn'
 
-export { cn, type ClassValue }
+export { cn, type ClassValue, type MaybeClassValue }
 ```
 
 Button with variants:
@@ -95,7 +93,7 @@ function Button({
 
 ### `cn`
 
-Uses **your** `tailwind-merge` install (peer) after `clsx`:
+Runs `clsx`, then `tailwind-merge`:
 
 ```ts
 import { cn } from 'clsx-cn'
@@ -149,7 +147,7 @@ const badgeAlt = cva({
 
 ### `cvaWithTwMerge` / `cxWithTwMerge` / `composeWithTwMerge`
 
-Same as `cva` / `cx` / `compose`, but the internal `cx` step runs `tailwind-merge` (peer):
+Same as `cva` / `cx` / `compose`, but the internal `cx` step runs `tailwind-merge`:
 
 ```ts
 import { cvaWithTwMerge as cva } from 'clsx-cn'
@@ -163,7 +161,7 @@ box({ size: 'sm' }) // → 'p-2' (not 'p-4 p-2')
 
 ### `createCn` + `tailwind-merge`
 
-Customize merge behavior via the peer package:
+Customize merge behavior (install resolves `tailwind-merge` transitively; import it for custom config):
 
 ```ts
 import { createCn } from 'clsx-cn'
@@ -211,10 +209,9 @@ layout({ direction: 'row', gap: 'sm' })
 
 | Before | After |
 |--------|--------|
-| `clsx` + `class-variance-authority` (+ often a local `cn` helper) | `clsx-cn` |
-| `tailwind-merge` | Still **`tailwind-merge`** (peer — same package, your version) |
+| `clsx` + `class-variance-authority` + `tailwind-merge` (+ often a local `cn` helper) | `clsx-cn` |
 
-You drop duplicate `clsx` / CVA wiring; you keep control of `tailwind-merge` versions in your app.
+You get one install for clsx, CVA, and Tailwind class merging. For a custom merge config, use `createCn` with `extendTailwindMerge` from `tailwind-merge`.
 
 ## Development
 

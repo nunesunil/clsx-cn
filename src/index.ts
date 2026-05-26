@@ -8,10 +8,10 @@ export {
 } from "./clsx";
 export {
 	cn,
-	compose as composeWithTwMerge,
+	composeWithTwMerge,
 	createCn,
-	cva as cvaWithTwMerge,
-	cx as cxWithTwMerge,
+	cvaWithTwMerge,
+	cxWithTwMerge,
 	defineConfigWithTwMerge,
 } from "./cn";
 export {
