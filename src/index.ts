@@ -2,6 +2,7 @@ export {
 	type ClassArray,
 	type ClassDictionary,
 	type ClassValue,
+	type MaybeClassValue,
 	clsx,
 	default,
 } from "./clsx";

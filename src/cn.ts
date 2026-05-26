@@ -1,19 +1,50 @@
 import { twMerge } from "tailwind-merge";
-import { type ClassValue, clsx } from "./clsx";
+import { type ClassValue, type MaybeClassValue, clsx } from "./clsx";
 import {
 	type DefineConfigOptions,
 	defineConfig,
 	resolveOnCompleteHook,
 } from "./cva";
 
+function mergeCn<TState>(
+	merge: (className: string) => string,
+	...args: ClassValue[] | [ClassValue, MaybeClassValue<TState>?]
+): string | ((state: TState) => string) {
+	if (args.length === 2 && typeof args[1] === "function") {
+		const base = args[0];
+		const className = args[1];
+		return (state) => merge(clsx(base, className(state)));
+	}
+
+	return merge(clsx(...(args as ClassValue[])));
+}
+
 /** Merge class inputs with clsx, then dedupe conflicting Tailwind classes. */
-export function cn(...inputs: ClassValue[]): string {
-	return twMerge(clsx(...inputs));
+export function cn(...inputs: ClassValue[]): string;
+export function cn<TState>(
+	base: ClassValue,
+	className?: MaybeClassValue<TState>,
+): string | ((state: TState) => string);
+export function cn<TState>(
+	...args: ClassValue[] | [ClassValue, MaybeClassValue<TState>?]
+): string | ((state: TState) => string) {
+	return mergeCn(twMerge, ...args) as string | ((state: TState) => string);
 }
 
 /** Build a `cn`-style helper with a custom merge function (e.g. from `tailwind-merge`). */
 export function createCn(merge: (className: string) => string = twMerge) {
-	return (...inputs: ClassValue[]): string => merge(clsx(...inputs));
+	function cn(...inputs: ClassValue[]): string;
+	function cn<TState>(
+		base: ClassValue,
+		className?: MaybeClassValue<TState>,
+	): string | ((state: TState) => string);
+	function cn<TState>(
+		...args: ClassValue[] | [ClassValue, MaybeClassValue<TState>?]
+	): string | ((state: TState) => string) {
+		return mergeCn(merge, ...args) as string | ((state: TState) => string);
+	}
+
+	return cn;
 }
 
 function chainOnComplete(

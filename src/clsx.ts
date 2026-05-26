@@ -10,6 +10,11 @@ export type ClassValue =
 	| boolean
 	| undefined;
 
+/** Static classes or a state resolver (e.g. Headless UI `className`). */
+export type MaybeClassValue<TState = unknown> =
+	| ClassValue
+	| ((state: TState) => ClassValue | undefined);
+
 function toVal(mix: ClassValue): string {
 	let k = 0;
 	let y = "";
